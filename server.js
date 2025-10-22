@@ -9,15 +9,16 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 3000;
+
+// ✅ Use Render's assigned port (important!)
+const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(express.json()); // parse JSON
+app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // --- Example API routes for orders ---
-// You should replace these with your real backend logic
-let orders = []; // temporary in-memory storage
+let orders = [];
 
 // Get all orders (admin)
 app.get('/api/orders', (req, res) => {
@@ -43,8 +44,10 @@ app.put('/api/orders/:id', (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-  
-  // Open webapp.html automatically
-  open(`http://localhost:${PORT}/webapp.html`);
+  console.log(`✅ Server running on port ${PORT}`);
+
+  // ⚠️ Only open browser locally (avoid crashing Render)
+  if (process.env.NODE_ENV !== 'production') {
+    open(`http://localhost:${PORT}/webapp.html`);
+  }
 });
