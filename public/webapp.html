@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Order Form</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="main.js" defer></script>
+</head>
+<body>
+  <h2>Order Form (Buy/Sell)</h2>
+  
+  <form id="orderForm">
+    <label>Order Type:
+      <select name="type">
+        <option value="buy">Buy</option>
+        <option value="sell">Sell</option>
+      </select>
+    </label><br>
+
+    <label>Name: <input name="name" required></label><br>
+    <label>Phone: <input name="phone" required></label><br>
+    <label>Product: <input name="product" required></label><br>
+    <label>Quantity: <input type="number" name="qty" required></label><br>
+    <label>Price: <input type="number" name="price" required></label><br>
+
+    <button type="submit">Submit Order</button>
+  </form>
+
+  <div id="result"></div>
+</body>
+</html>
