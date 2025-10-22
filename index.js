@@ -47,48 +47,46 @@ app.listen(PORT, () => {
 // ===========================
 import TelegramBot from 'node-telegram-bot-api';
 
-// Use BOT_TOKEN from Render environment variables
+// Validate BOT_TOKEN
 const token = process.env.BOT_TOKEN;
 if (!token) {
   console.error("❌ BOT_TOKEN is missing! Set it in Render environment variables.");
   process.exit(1);
 }
 
+// Validate WEBAPP_URL
+const webAppUrl = process.env.WEBAPP_URL;
+if (!webAppUrl) {
+  console.error("❌ WEBAPP_URL is missing! Set it in Render environment variables.");
+  process.exit(1);
+}
+
+// Create bot with polling
 const bot = new TelegramBot(token, { polling: true });
 
+// Handle /start
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
+  console.log(`User ${chatId} started the bot`);
 
   bot.sendMessage(chatId, "Welcome! Click below to open the mini-app:", {
     reply_markup: {
       inline_keyboard: [
-        [
-          {
-            text: "Open Mini App",
-            web_app: {
-              url: process.env.WEBAPP_URL || `https://your-render-url.onrender.com/webapp.html`
-            }
-          }
-        ]
+        [{ text: "Open Mini App", web_app: { url: webAppUrl } }]
       ]
     }
   });
 });
 
+// Handle /openapp
 bot.onText(/\/openapp/, (msg) => {
   const chatId = msg.chat.id;
+  console.log(`User ${chatId} opened the mini-app`);
 
   bot.sendMessage(chatId, "Click below to open the mini-app:", {
     reply_markup: {
       inline_keyboard: [
-        [
-          {
-            text: "Open Mini App",
-            web_app: {
-              url: process.env.WEBAPP_URL || `https://your-render-url.onrender.com/webapp.html`
-            }
-          }
-        ]
+        [{ text: "Open Mini App", web_app: { url: webAppUrl } }]
       ]
     }
   });
